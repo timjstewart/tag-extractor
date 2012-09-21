@@ -2,3 +2,4 @@ import/
 backup/
 data/
 *.pyc
+.*.swp

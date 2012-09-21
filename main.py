@@ -1,8 +1,9 @@
 import sys
 import mongo
-import tagging
 
-extractor = tagging.TagExtractor()
+from topia_extractor import TagExtractor
+
+extractor = TagExtractor()
 
 databases = {
   'threads': {
@@ -61,3 +62,4 @@ for database_name in databases:
         sys.stdout.write('.')
 
     print
+
