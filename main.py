@@ -4,6 +4,7 @@ import mongo
 from topia_extractor import TagExtractor
 
 extractor = TagExtractor()
+extractor.tune_filter(1, 1)
 
 databases = {
   'threads': {

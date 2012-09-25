@@ -22,7 +22,7 @@ import zope.interface
 from myopia.termextract import interfaces
 
 TERM_SPEC = re.compile('[^a-zA-Z]*([a-zA-Z-\.]*[a-zA-Z])[^a-zA-Z]*[a-zA-Z]*')
-DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), 'data')
+DATA_DIRECTORY = os.path.join(os.path.dirname(__file__), 'lexicons')
 
 def correctDefaultNounTag(idx, tagged_term, tagged_terms, lexicon):
     """Determine whether a default noun is plural or singular."""

@@ -1,6 +1,6 @@
 from tagging import Tag
 
-from myopia.termextract import extract, tag
+import nltk
 
 class TagExtractor:
   """Extracts tags from a body of text"""
@@ -12,7 +12,7 @@ class TagExtractor:
 
   def tune_filter(self, min_unigram_freq, min_n):
     """Tune the filter"""
-    self.extractor.filter = extract.DefaultFilter(min_unigram_freq, min_n, ["RB", "VB", "VBD", "VBG", "VBN", "VBP", "VBZ"])
+    self.extractor.filter = extract.DefaultFilter(min_unigram_freq, min_n)
 
   def extract_tags(self, text):
     """Extract tags from the text"""
