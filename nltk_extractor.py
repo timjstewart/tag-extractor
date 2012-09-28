@@ -92,7 +92,9 @@ class TagExtractor:
     return text
     
   def __chunk_sentence(self, sentence):
-    """Run the RegexpParser on a sentance using GRAMMAR to chunk the sentence into a tree."""
+    """Tokenize the sentence into words using a whitespace parser to avoid parsing couldn't into two tokens (could and n't).
+       Then chunk the tokens according to GRAMMAR.
+    """
     tokenizer = WhitespaceTokenizer()
     tokens = tokenizer.tokenize(sentence)
     pos_tagged = nltk.pos_tag(tokens)
