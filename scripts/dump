@@ -1,0 +1,18 @@
+#! /bin/bash
+
+if [ "$#" -eq "0" ]; then
+  echo "Usage: dump DIR"
+  exit 1
+fi
+
+if [ -e "$1" ]; then 
+  echo "A file or directory named: $1 already exists.  Please choose a different name or delete that file/directory."
+  exit 1
+fi
+
+if ! mongodump -vv -h localhost -d threads -o $1 ; then
+  echo "dump: error running mongodb dump"
+  exit 1
+fi
+
+tar cvzf $1.tar.gz $1
