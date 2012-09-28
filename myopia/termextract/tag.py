@@ -82,6 +82,11 @@ def normalizePluralForms(idx, tagged_term, tagged_terms, lexicon):
             tagged_term[2] = singular
             return
 
+def try_print(text):
+  try:
+    print text
+  except:
+    pass
 
 class Tagger(object):
     zope.interface.implements(interfaces.ITagger)
@@ -115,10 +120,12 @@ class Tagger(object):
             # split those out
             match = TERM_SPEC.search(term)
             if match is None:
-                terms.append(term)
+                #try_print("NO MATCH: " + term)
+                #terms.append(term)
                 continue
             for subTerm in match.groups():
                 if subTerm != '':
+                    #try_print("MATCH: " + subTerm)
                     terms.append(subTerm)
         return terms
 

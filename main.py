@@ -1,10 +1,9 @@
 import sys
 import mongo
 
-from topia_extractor import TagExtractor
+from nltk_extractor import TagExtractor
 
 extractor = TagExtractor()
-extractor.tune_filter(1, 1)
 
 databases = {
   'threads': {
@@ -37,7 +36,12 @@ databases = {
 def tags_to_hash(tags):
   result = []
   for tag in tags:
-    result.append({ 'tag': tag.text, 'count': tag.occurs })
+    result.append({ 
+      'tag':      tag.text, 
+      'count':    tag.occurs, 
+      'pos':      tag.pos, 
+      'priority': tag.priority 
+    })
   return result
 
 for database_name in databases:
@@ -58,9 +62,6 @@ for database_name in databases:
       text = corpus.get_text(text_field) 
       if text:
         tags = extractor.extract_tags(text)
-        corpus.put_tags(tags_field, tags_to_hash(tags))
-        corpus.save()
-        sys.stdout.write('.')
-
-    print
+        #corpus.put_tags(tags_field, tags_to_hash(tags))
+        #corpus.save()
 

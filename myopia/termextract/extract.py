@@ -41,11 +41,13 @@ class DefaultFilter(object):
           return False
         if self.ignored_pos and pos in self.ignored_pos:
           return False
+        if len(word) < 2:
+          return False
         try:
-          sys.stdout.write("'" + word + "'")
+          sys.stdout.write("Accepted: '" + word + "' ")
         except:
           print("Unable to print word")
-        print pos
+        print "(" + pos + ")"
         return ((strength == 1 and occur >= self.singleStrengthMinOccur) or
                 (strength >= self.noLimitStrength))
 
