@@ -5,12 +5,17 @@ import nltk
 
 from tag import Tag
 from nltk.tokenize.punkt import PunktSentenceTokenizer
+from nltk.corpus import stopwords
+from nltk.tokenize.regexp import WhitespaceTokenizer
 
-WORD_RE = re.compile('[^a-zA-Z]*([a-zA-Z-\.]*[a-zA-Z])[^a-zA-Z]*')
+WORD_RE = re.compile('[^a-zA-Z]*([a-zA-Z-\'\.]*[a-zA-Z])[^a-zA-Z]*')
+STOP_WORDS = stopwords.words('english')
+STOP_WORDS.extend(["i'm"])
 
 GRAMMAR = """
   NP:  {<JJ.*>*<NN.*>+}
   VB:  {<VB.*>+}
+  ADV: {<RB.*>+}
   """
 
 def filter_word(word):
@@ -43,7 +48,10 @@ class TagExtractor:
     """Creates a default Topia tagger and extractor."""
     self.sentence_tokenizer = PunktSentenceTokenizer()
     self.parser = nltk.RegexpParser(GRAMMAR)
-    self.productions = ['NP', 'VB']
+    self.productions = ['NP', 'VB', 'ADV']
+
+  def __is_just_stop_words(self, words):
+    return not any([word not in STOP_WORDS for word in words])
 
   def extract_tags(self, text):
     """Extract tags from the text."""
@@ -61,6 +69,8 @@ class TagExtractor:
               tag_tokens.append(trimmed.lower())
           if len(tag_tokens) > 0:
             tag_text = string.join(tag_tokens, ' ')
+            if self.__is_just_stop_words(tag_tokens):
+              continue
             tag = self.__lookup_tag(tags, tag_text, pos) 
             tag.increment_occurs()
             tag.set_pos(pos)
@@ -83,7 +93,8 @@ class TagExtractor:
     
   def __chunk_sentence(self, sentence):
     """Run the RegexpParser on a sentance using GRAMMAR to chunk the sentence into a tree."""
-    tokens = nltk.word_tokenize(sentence)
+    tokenizer = WhitespaceTokenizer()
+    tokens = tokenizer.tokenize(sentence)
     pos_tagged = nltk.pos_tag(tokens)
     return self.parser.parse(pos_tagged)
 

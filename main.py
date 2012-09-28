@@ -38,20 +38,22 @@ databases = {
 # Different parts of speech have different priorities.  E.g. a Noun Phrase (NP) is the most
 # important because it represents a concept.
 PRIORITY = { 
-  "VB": 2,
-  "NP": 3
+  "NP":  3,
+  "VB":  2,
+  "ADV": 0
 }
 
 def get_priority(pos):
-  if PRIORITY.get(pos):
-    return PRIORITY[pos]
+  priority = PRIORITY.get(pos)
+  if None != priority:
+    return priority
   else:
     sys.stderr.write('No Priority for POS: {0}.  Priority will be set to zero.\n'.format(pos))
     return 0
 
 def tags_to_hash(tags):
   """Convert tags to a form that can be stored in MongoDB""" 
-  [{ 
+  return [{ 
     'tag':      tag.text,             # The tag text (e.g. "bowling ball", "cat", etc.)
     'count':    tag.occurs,           # The number of times that the tag occurs.
     'pos':      tag.pos,              # The part of speech that the tag represents.
