@@ -81,7 +81,7 @@ class TagExtractor:
   def __lookup_tag(self, tags, text, pos):
     tag = tags.get(self.__get_tag_key(text, pos))
     if not tag:
-      tag = Tag(text, 1, pos)
+      tag = Tag(text, 0, pos)
       tags[self.__get_tag_key(text, pos)] = tag
     return tag
 
